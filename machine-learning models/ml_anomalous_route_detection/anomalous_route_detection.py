@@ -9,8 +9,48 @@ import os
 import tqdm
 
 
+def visualization_directory():
+    """ Handle the directory creation for visualization images. """
+
+    # Get absolute path for visualization directory
+    current_dir = os.getcwd()
+    output_dir = os.path.join(current_dir, "anomaly_comparisons")
+
+    # OCD conditional block for centering
+    if len(output_dir) % 2 == 0:
+        len_output_dir = len(output_dir) + 34
+    else:
+        len_output_dir = len(output_dir) + 33
+
+    # Create directory with error handling
+    try:
+        os.makedirs(output_dir, exist_ok=True)
+        print("\n" + "\033[92m-\033[0m" * len_output_dir)
+        print(f"\033[92m  Directory created/verified at: {output_dir}\033[0m".center(len_output_dir))
+        print("\033[92m-\033[0m" * len_output_dir + "\n")
+        if os.path.exists(output_dir):
+            print(f"Directory exists and is accessible!\n")
+        else:
+            print("\033[91m-\033[0m" * 180)
+            print(f"\033[91m{'WARNING: Directory creation appeared to succeed but directory doesn\'t exist.':^180}\033[0m")
+            print("\033[91m-\033[0m" * 180 + "\n")
+            # Output for failure case.
+            print("Consider manually creating the directory or changing the output directory path.")
+            exit(1)
+    except Exception as e:
+        print("-" * 180)
+        print(f"Error creating directory: {e}".center(180))
+        print("-" * 180 + "\n")
+
+        import tempfile
+
+        output_dir = tempfile.gettempdir()
+        print(f"Using temporary directory instead: {output_dir}")
+
+
 def load_and_preprocess_data():
     """Load and preprocess airport and route data"""
+
     # Load data
     airports_file = "../../data/airports.dat"
     routes_file = "../../data/routes.dat"
@@ -118,6 +158,7 @@ def generate_visualization_images(routes_with_both, X, output_dir='anomaly_compa
           This is a necessary sacrifice for the accuracy of regional visualizations and long/short distance visualizations.
           Ultimately, you'll see inconsistency in the results but this is a good method to see the effect of different parameters.
     """
+
     # Create output directory if it doesn't exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -253,7 +294,8 @@ def generate_visualization_images(routes_with_both, X, output_dir='anomaly_compa
             plt.close()
 
 
-def main():
+def handler():
+    """ Handle the request to run the anomaly detection. """
     # Load and preprocess the data
     routes_with_both, X = load_and_preprocess_data()
 
@@ -547,6 +589,15 @@ def main():
     print("\nSaving anomalous routes to file for further investigation...")
     anomalous_routes.to_csv('anomaly_comparisons/anomalous_routes.csv', index=False)
     print(f"Saved {len(anomalous_routes)} anomalous routes to 'anomaly_comparisons/anomalous_routes.csv'")
+
+
+def main():
+    """ main() function cut down for readability. """
+    # Call for directory creation and confirmation
+    visualization_directory()
+
+    # Call for the handler function to deal with console outputs and backend
+    handler()
 
 
 if __name__ == "__main__":
