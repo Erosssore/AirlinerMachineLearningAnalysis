@@ -1,0 +1,21 @@
+Feature Completion at 03:15 CENTRAL 2025-04-16
+---
+To execute this machine learning algorithm initialize the optimized_airport_traffic_predictor.py program
+
+
+Development: When initially writing this script it went through several iterations focusing on different qualities
+             that could be used to predict if an airport would attract significant traffic.
+             Initially the model had assumed that the amount of routes that went in an out of an airport contributed
+             to traffic but this seemed rather unrefined and doesn't necessarily glean any valuable insights.
+             It also contributed to a rather messy 1000 line script which was difficult to work with.
+
+             I had decided that the best course of action was to remove any factors that didn't significantly contribute
+             to the valuation things like coastline proximity and the population surrounding the airport (which is an interesting insight)
+             that way it'd be significantly more efficient. Though this model also runs into problems with R^2 accuracy dropping
+             from 95% to 86.1% which is disappointing. Trying to work with this new script was ultimately frustrating,
+             so I moved back to iterating on features.
+
+             The script needed significant organizational fixes that take up the majority of my time.
+
+
+

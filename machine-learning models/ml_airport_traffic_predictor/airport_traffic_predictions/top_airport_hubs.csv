@@ -1,0 +1,21 @@
+Name,IATA,Hub_Score,PassengerTraffic,TotalRoutes
+Hartsfield Jackson Atlanta International Airport,ATL,0.6333191213363297,16280740,1826
+Beijing Capital International Airport,PEK,0.6104056893411348,7656992,1069
+Chicago O'Hare International Airport,ORD,0.6082201385822641,13062570,1108
+Charles de Gaulle International Airport,CDG,0.6070153035462883,2434104,1041
+London Heathrow Airport,LHR,0.6069469399783884,6077099,1047
+Frankfurt am Main Airport,FRA,0.6065069860874037,7448273,990
+Dallas Fort Worth International Airport,DFW,0.6031822485622432,9103350,936
+Amsterdam Airport Schiphol,AMS,0.6026713975116699,11276859,903
+Los Angeles International Airport,LAX,0.6017996106569529,14365156,990
+John F Kennedy International Airport,JFK,0.601654917233178,11862495,911
+Shanghai Pudong International Airport,PVG,0.5954477082123324,10304724,825
+Barcelona International Airport,BCN,0.595018599444514,5522137,783
+Singapore Changi Airport,SIN,0.5930141995501597,7799592,814
+Incheon International Airport,ICN,0.5920870429335524,8693677,740
+Atatürk International Airport,ISL,0.5917528497441215,6516363,715
+Miami International Airport,MIA,0.5902594059067928,6723857,734
+Dubai International Airport,DXB,0.59023962305679,7812718,702
+Hong Kong International Airport,HKG,0.5902088168152669,11006445,708
+Leonardo da Vinci–Fiumicino Airport,FCO,0.5882698251709528,6455796,662
+London Gatwick Airport,LGW,0.588124078622653,6675720,708

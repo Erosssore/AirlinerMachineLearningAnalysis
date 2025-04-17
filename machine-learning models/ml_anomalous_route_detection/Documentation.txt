@@ -1,0 +1,11 @@
+Feature Completion at 03:24 CENTRAL 2025-04-16
+---
+To execute this machine learning algorithm initialize the anomalous_route_detection.py program
+
+Note: Additions to colorization and uniformity of console output adapted from airport_link_prediction_model.py
+      Fun loading bar that I'm too lazy to implement into link prediction.
+
+      Funny enough, I had a panic attack thinking I had deleted part of the file that triggered me to
+      upload to GitHub so thank god. 2024-04-17
+
+TODO: Model accuracy predictions if time allows.

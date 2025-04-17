@@ -1,0 +1,12 @@
+Feature Completion at 03:15 CENTRAL 2025-04-16
+---
+To execute this machine learning algorithm initialize the airport_link_prediction_model.py program
+
+
+Note: Additions to colorization and uniformity of console output.
+      ROC is consistently around 94-95% accuracy which I find acceptable.
+
+TODO: Changes to airport_network_visualization to show Airport Code like top_predicted_routes
+
+TODO: Loading bar? Probably not.
+
