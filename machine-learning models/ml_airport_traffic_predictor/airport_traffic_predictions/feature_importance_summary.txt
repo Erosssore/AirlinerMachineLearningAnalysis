@@ -1,11 +1,11 @@
 Top 10 most important features for predicting airport traffic:
-Hub_Score: 0.9756
-Unique_Destinations: 0.0202
+Hub_Score: 0.9752
+Unique_Destinations: 0.0206
 Connection_Ratio: 0.0008
+Distance_to_EconCenter: 0.0007
 Altitude: 0.0006
-Distance_to_EconCenter: 0.0006
 Latitude: 0.0006
 Longitude: 0.0005
+Population_100km: 0.0004
 Population_200km: 0.0003
-Population_100km: 0.0002
 Population_50km: 0.0002

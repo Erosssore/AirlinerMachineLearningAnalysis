@@ -95,7 +95,7 @@ def load_and_preprocess_data():
         suffixes=("_src", "_dest")
     )
 
-    # Calculate distance between airports (haversine formula)
+    # Calculate distance between airports (haversine formula) need to change for organization
     def haversine_distance(lat1, lon1, lat2, lon2):
         lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
         dlat = lat2 - lat1

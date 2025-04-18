@@ -9,11 +9,6 @@ import os
 import traceback
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
-
-# Get absolute path for visualization directory
-current_dir = os.getcwd()
-output_dir = os.path.join(current_dir, "airport_traffic_predictions")
 
 
 def visualization_directory():
@@ -21,7 +16,7 @@ def visualization_directory():
 
     # Get absolute path for visualization directory
     current_dir = os.getcwd()
-    output_dir = os.path.join(current_dir, "anomaly_comparisons")
+    output_dir = os.path.join(current_dir, "airport_traffic_predictions")
 
     # OCD conditional block for centering
     if len(output_dir) % 2 == 0:
@@ -37,6 +32,7 @@ def visualization_directory():
         print("\033[92m-\033[0m" * len_output_dir + "\n")
         if os.path.exists(output_dir):
             print(f"Directory exists and is accessible!\n")
+            return output_dir
         else:
             print("\033[91m-\033[0m" * 180)
             print(
@@ -56,7 +52,7 @@ def visualization_directory():
         print(f"Using temporary directory instead: {output_dir}")
 
 # Helper function for saving visualizations with error handling
-def save_visualization(fig, filename, close_after=True):
+def save_visualization(fig, filename, output_dir, close_after=True):
     """Save a matplotlib figure with error handling"""
     full_path = os.path.join(output_dir, filename)
     try:
@@ -73,7 +69,7 @@ def save_visualization(fig, filename, close_after=True):
         traceback.print_exc()
         return False
 
-def load_and_process_data():
+def load_and_process_data(output_dir):
     """Load and preprocess airport and route data"""
     # Load data
     airports_file = "../../data/airports.dat"
@@ -627,6 +623,9 @@ def load_and_process_data():
         regr = RandomForestRegressor(n_estimators=100, random_state=42)
         regr.fit(X_train, y_train)
 
+        print(f"Total airports after filtering: {len(airport_features)}")
+        print(f"Train set size: {len(y_train)}, Test set size: {len(y_test)}")
+
         # Predict and evaluate
         y_pred = regr.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
@@ -654,7 +653,7 @@ def load_and_process_data():
         plt.xlabel('Importance', fontsize=14)
         plt.ylabel('Feature', fontsize=14)
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'feature_importance.png')
+        save_visualization(plt.gcf(), 'feature_importance.png', output_dir)
     except Exception as e:
         print(f"Error creating feature importance plot: {e}")
         traceback.print_exc()
@@ -668,7 +667,7 @@ def load_and_process_data():
         plt.ylabel('Predicted Traffic (Total Routes)', fontsize=14)
         plt.title('Actual vs Predicted Airport Traffic', fontsize=16)
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'prediction_accuracy.png')
+        save_visualization(plt.gcf(), 'prediction_accuracy.png', output_dir)
     except Exception as e:
         print(f"Error creating prediction accuracy plot: {e}")
         traceback.print_exc()
@@ -694,7 +693,7 @@ def load_and_process_data():
     return airport_features, routes_df, available_features, regr
 
 # Generate Map Visualizations
-def visualizations(airport_features):
+def visualizations(airport_features, output_dir):
     # 1. Relationship between population and airport traffic
     try:
         plt.figure(figsize=(12, 8))
@@ -705,7 +704,7 @@ def visualizations(airport_features):
         plt.ylabel('Total Routes', fontsize=14)
         plt.title('Population vs. Airport Traffic', fontsize=16)
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'population_vs_traffic.png')
+        save_visualization(plt.gcf(), 'population_vs_traffic.png', output_dir)
     except Exception as e:
         print(f"Error creating population vs traffic plot: {e}")
         traceback.print_exc()
@@ -729,7 +728,7 @@ def visualizations(airport_features):
             ax.text(i, 5, f"n={v}", ha='center', fontsize=10)
 
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'regional_traffic.png')
+        save_visualization(plt.gcf(), 'regional_traffic.png', output_dir)
     except Exception as e:
         print(f"Error creating regional traffic plot: {e}")
         traceback.print_exc()
@@ -745,7 +744,7 @@ def visualizations(airport_features):
         plt.ylabel('Total Routes', fontsize=14)
         plt.title('Distance to Economic Centers vs. Airport Traffic', fontsize=16)
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'distance_vs_traffic.png')
+        save_visualization(plt.gcf(), 'distance_vs_traffic.png', output_dir)
     except Exception as e:
         print(f"Error creating distance vs traffic plot: {e}")
         traceback.print_exc()
@@ -792,7 +791,7 @@ def visualizations(airport_features):
         plt.legend()
 
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'hub_score_components.png')
+        save_visualization(plt.gcf(), 'hub_score_components.png', output_dir)
     except Exception as e:
         print(f"Error creating hub component visualization: {e}")
         traceback.print_exc()
@@ -808,7 +807,7 @@ def visualizations(airport_features):
         plt.ylabel('Total Routes', fontsize=14)
         plt.title('Altitude vs. Airport Traffic', fontsize=16)
         plt.tight_layout()
-        save_visualization(plt.gcf(), 'altitude_vs_traffic.png')
+        save_visualization(plt.gcf(), 'altitude_vs_traffic.png', output_dir)
     except Exception as e:
         print(f"Error creating altitude vs traffic plot: {e}")
         traceback.print_exc()
@@ -816,7 +815,7 @@ def visualizations(airport_features):
     print(f"Visualization process completed. Check {output_dir} for saved files.")
 
 # Cartopy Visualizations
-def cartopy_visualizations(airport_features, routes_df, available_features, regr):
+def cartopy_visualizations(airport_features, routes_df, available_features, regr, output_dir):
     try:
         print("Generating Cartopy global visualizations...")
 
@@ -864,7 +863,7 @@ def cartopy_visualizations(airport_features, routes_df, available_features, regr
         cbar.set_label('Total Routes', fontsize=12)
 
         plt.title('Global Distribution of Airport Traffic (Top 500 Airports)', fontsize=16)
-        save_visualization(fig, 'global_airport_traffic.png')
+        save_visualization(fig, 'global_airport_traffic.png', output_dir)
 
         # 2. Regional Hub Analysis - Update to use new Hub Score
         fig, ax = create_robinson_map()
@@ -896,7 +895,7 @@ def cartopy_visualizations(airport_features, routes_df, available_features, regr
         cbar.set_label('Hub Score (Balance, Scale, Network)', fontsize=12)
 
         plt.title('Global Distribution of Major Airport Hubs', fontsize=16)
-        save_visualization(fig, 'global_airport_hubs.png')
+        save_visualization(fig, 'global_airport_hubs.png', output_dir)
 
         # 3. Population Density vs Airport Traffic
         fig, ax = create_robinson_map()
@@ -922,7 +921,7 @@ def cartopy_visualizations(airport_features, routes_df, available_features, regr
         cbar.set_label('Population within 100km', fontsize=12)
 
         plt.title('Population Density and Airport Traffic', fontsize=16)
-        save_visualization(fig, 'population_and_traffic_global.png')
+        save_visualization(fig, 'population_and_traffic_global.png', output_dir)
 
         # 4. Major Routes Network Visualization (simplified version)
         fig, ax = create_robinson_map(figsize=(18, 12))
@@ -994,7 +993,7 @@ def cartopy_visualizations(airport_features, routes_df, available_features, regr
             route_count += 1
 
         plt.title('Major Global Air Route Network', fontsize=16)
-        save_visualization(fig, 'global_route_network.png')
+        save_visualization(fig, 'global_route_network.png', output_dir)
 
         # 5. Predicted vs Actual Traffic by Geographic Region
         fig, ax = create_robinson_map()
@@ -1032,7 +1031,7 @@ def cartopy_visualizations(airport_features, routes_df, available_features, regr
         cbar.set_label('Prediction Error (negative = underprediction)', fontsize=12)
 
         plt.title('Geographic Distribution of Traffic Prediction Accuracy', fontsize=16)
-        save_visualization(fig, 'prediction_error_global.png')
+        save_visualization(fig, 'prediction_error_global.png', output_dir)
 
     except Exception as e:
         print(f"Error creating Cartopy visualizations: {e}")
@@ -1047,16 +1046,16 @@ def completion():
 def main():
     """ main() function cut down for readability. """
     # Call for directory creation and confirmation
-    visualization_directory()
+    output = visualization_directory()
 
     # Load and process data
-    airport_features, routes_df, available_features, regr  = load_and_process_data()
+    airport_features, routes_df, available_features, regr  = load_and_process_data(output)
 
     # Visualize datapoints
-    visualizations(airport_features)
+    visualizations(airport_features, output)
 
     # Saved cartopy visualizations
-    cartopy_visualizations(airport_features, routes_df, available_features, regr)
+    cartopy_visualizations(airport_features, routes_df, available_features, regr, output)
 
     # Call for completion output to console
     completion()
